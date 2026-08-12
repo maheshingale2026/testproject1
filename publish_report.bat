@@ -14,36 +14,37 @@ if not exist target\extent-reports (
     exit /b 1
 )
 
-REM Create destination folders
-if not exist reports\extent-reports mkdir reports\extent-reports
-if not exist reports\screenshots mkdir reports\screenshots
+REM Create single destination folder (not separated)
+if not exist reports mkdir reports
 
-echo Copying extent reports...
-robocopy target\extent-reports reports\extent-reports /MIR /NFL /NDL /NJH /NJS >nul
-if %ERRORLEVEL% GEQ 8 (
-    echo Robocopy failed copying extent reports.
-    exit /b 1
-)
+echo Copying extent reports and screenshots into reports folder...
+REM Copy extent reports (HTML, CSS, JS, JSON)
+robocopy target\extent-reports reports /E /NFL /NDL /NJH /NJS >nul 2>&1
 
-echo Copying screenshots (if any)...
+REM Copy screenshots into the same reports folder (if any)
 if exist target\screenshots (
-    robocopy target\screenshots reports\screenshots /MIR /NFL /NDL /NJH /NJS >nul
+    robocopy target\screenshots reports /E /NFL /NDL /NJH /NJS >nul 2>&1
 )
 
 echo Adding files to git...
-"%PROGRAMFILES%\Git\cmd\git.exe" add reports\extent-reports reports\screenshots 2>nul || git add reports\extent-reports reports\screenshots
+"%PROGRAMFILES%\Git\cmd\git.exe" add reports 2>nul || git add reports
 
 set timestamp=%DATE%_%TIME%
 set timestamp=%timestamp::=_%
 set timestamp=%timestamp:/=_%
 set timestamp=%timestamp:.=_%
 
-git commit -m "Add latest Extent report and screenshots - %timestamp%" 2>nul || (
+echo Committing report...
+"%PROGRAMFILES%\Git\cmd\git.exe" commit -m "Add latest Extent report with screenshots - %timestamp%" 2>nul || (
     echo Nothing to commit or git commit failed
 )
 
 echo Pushing to origin main...
 "%PROGRAMFILES%\Git\cmd\git.exe" push origin main 2>nul || git push origin main
 
-echo Done. Reports are copied to reports\extent-reports and reports\screenshots
+echo.
+echo =============================
+echo Done! Reports copied to reports\ folder
+echo Open: reports\ExtentReport_*.html
+echo =============================
 pause

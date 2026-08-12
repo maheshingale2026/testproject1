@@ -1,0 +1,14 @@
+# This folder contains published Extent test reports and screenshots
+# Run tests and then execute publish_report.bat to copy reports here
+
+## Contents:
+- ExtentReport_[timestamp].html - Main test report
+- screenshots/ folder - Test execution screenshots (embedded in HTML)
+- Supporting files (CSS, JS, JSON)
+
+## Workflow:
+1. Run: mvn -Dtest=TestRunner test
+2. Run: .\publish_report.bat
+3. Open: ExtentReport_*.html in browser
+
+All files are kept together in this single folder (not separated).
