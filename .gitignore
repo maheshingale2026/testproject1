@@ -46,3 +46,4 @@ build/
 *.jar
 *.war
 *.nar
+/bin/
