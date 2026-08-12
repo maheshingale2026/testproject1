@@ -96,7 +96,8 @@ public class ExtentReportManager {
     public static void attachScreenshot(String screenshotPath) {
         try {
             if (screenshotPath != null && !screenshotPath.isEmpty()) {
-                getTest().addScreenCaptureFromPath(screenshotPath);
+                String abs = com.digitalclock.utils.ScreenshotUtil.getScreenshotAbsolutePath(screenshotPath);
+                getTest().addScreenCaptureFromPath(abs);
             }
         } catch (Exception e) {
             logWarning("Could not attach screenshot: " + e.getMessage());
