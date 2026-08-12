@@ -90,15 +90,18 @@ public class GoogleNavigationSteps {
             String currentUrl = DriverManager.getCurrentUrl();
             assertTrue("URL should contain google", currentUrl.contains("google.com"));
             
-            String screenshot = ScreenshotUtil.captureScreenshot(driver, "Google_Homepage");
+            // Capture full page screenshot for homepage verification
+            String screenshot = ScreenshotUtil.captureFullPageScreenshot(driver, "Google_Homepage_Full_Page");
             if (screenshot != null) {
                 ExtentReportManager.attachScreenshot(screenshot);
             }
             
             ExtentReportManager.logPass("Google homepage loaded successfully");
             ExtentReportManager.logInfo("Current URL: " + currentUrl);
+            ExtentReportManager.logInfo("Full page screenshot captured for homepage verification");
             System.out.println("✓ Google homepage loaded");
             System.out.println("  Current URL: " + currentUrl);
+            System.out.println("  Full page screenshot captured");
         } catch (Exception e) {
             ExtentReportManager.logFail("Google homepage not loaded: " + e.getMessage());
             captureFailureScreenshot("Homepage_Verification_Failed");

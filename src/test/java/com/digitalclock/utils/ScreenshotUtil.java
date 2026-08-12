@@ -44,6 +44,28 @@ public class ScreenshotUtil {
     }
 
     /**
+     * Take full page screenshot of current browser window
+     */
+    public static String captureFullPageScreenshot(WebDriver driver, String screenshotName) {
+        try {
+            TakesScreenshot screenshot = (TakesScreenshot) driver;
+            File srcFile = screenshot.getScreenshotAs(OutputType.FILE);
+            
+            String timestamp = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss-SSS").format(new Date());
+            String fileName = "FULLPAGE_" + screenshotName.replaceAll(" ", "_") + "_" + timestamp + ".png";
+            String destinationPath = SCREENSHOT_DIR + fileName;
+            
+            Files.copy(srcFile.toPath(), Paths.get(destinationPath));
+            
+            System.out.println("✓ Full page screenshot captured: " + fileName);
+            return destinationPath;
+        } catch (IOException e) {
+            System.out.println("✗ Failed to capture full page screenshot: " + e.getMessage());
+            return null;
+        }
+    }
+
+    /**
      * Take screenshot on test failure
      */
     public static String captureScreenshotOnFailure(WebDriver driver, String testName) {
