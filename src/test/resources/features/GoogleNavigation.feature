@@ -5,4 +5,4 @@ Feature: Navigate to Google Website
     When User navigates to "https://www.google.com"
     Then User should see the Google homepage
     And User should verify the page title contains "Google"
-    And User closes the browser
+  # And User closes the browser

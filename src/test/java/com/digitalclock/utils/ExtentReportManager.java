@@ -22,6 +22,9 @@ public class ExtentReportManager {
         reporter.config().setTheme(Theme.DARK);
         reporter.config().setDocumentTitle("Selenium Automation Test Report");
         reporter.config().setReportName("Digital Clock Automation Tests");
+        
+        // Enable screenshots in report
+        reporter.config().setTimelineEnabled(true);
 
         extent = new ExtentReports();
         extent.attachReporter(reporter);
@@ -85,6 +88,19 @@ public class ExtentReportManager {
      */
     public static void logWarning(String message) {
         getTest().warning(message);
+    }
+
+    /**
+     * Attach screenshot to report
+     */
+    public static void attachScreenshot(String screenshotPath) {
+        try {
+            if (screenshotPath != null && !screenshotPath.isEmpty()) {
+                getTest().addScreenCaptureFromPath(screenshotPath);
+            }
+        } catch (Exception e) {
+            logWarning("Could not attach screenshot: " + e.getMessage());
+        }
     }
 
     /**
